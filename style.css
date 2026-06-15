@@ -1,0 +1,67 @@
+body{
+    text-align:center;
+    font-family:sans-serif;
+}
+
+button{
+    display:block;
+    margin:10px auto;
+    padding:10px;
+    width:300px;
+}
+pre{
+    width:80%;
+    max-width:800px;
+
+    margin:20px auto;
+
+    text-align:left;
+
+    background:#1e1e1e;
+    color:white;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    font-size:32px;
+    font-family:Consolas, monospace;
+
+    white-space:pre-wrap;
+}
+#codeArea{
+    width:100%;
+}
+
+#codeArea pre{
+    display:block !important;
+
+    width:90% !important;
+    max-width:1000px !important;
+
+    margin:20px auto !important;
+
+    text-align:left !important;
+
+    background:#1e1e1e !important;
+    color:white !important;
+
+    padding:20px !important;
+
+    border-radius:10px !important;
+
+    font-size:36px !important;
+
+    font-family:Consolas, monospace !important;
+
+    white-space:pre-wrap !important;
+}
+.questionImage{
+    width:90%;
+    max-width:900px;
+
+    display:block;
+    margin:20px auto;
+
+    border-radius:10px;
+}

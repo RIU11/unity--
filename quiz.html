@@ -1,0 +1,623 @@
+html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unity問題集</title>
+
+<style>
+
+body{
+    font-family:sans-serif;
+    text-align:center;
+    margin:30px;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+#questionNumber{
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+#question{
+    font-size:28px;
+    margin-bottom:30px;
+}
+
+.choiceLabel{
+    display:block;
+    width:80%;
+    max-width:500px;
+    margin:10px auto;
+    padding:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.choiceLabel input{
+    margin-right:10px;
+}
+
+#result{
+    margin-top:20px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+#answerButton{
+    margin-top:20px;
+}
+
+#nextButton{
+    display:none;
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    padding:15px 30px;
+    font-size:24px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Unity問題集</h1>
+
+<div id="questionNumber"></div>
+
+<h2 id="question"></h2>
+
+<div id="codeArea"></div>
+
+<div id="choices"></div>
+
+<div id="result"></div>
+
+<button id="answerButton">
+回答する
+</button>
+
+<button id="nextButton">
+次へ →
+</button>
+
+<script>
+
+const questions = [
+
+{
+    question:"変数とは何か下の空欄に当てはまるものを選べ<br>「　　　」を保存する箱",
+
+    correct:"情報",
+
+    wrong:[
+        "関数",
+        "大きさ",
+        "変数"
+    ]
+},
+
+{
+    question:"この中で変数はどれかすべて答えて",
+
+    correct:[
+        "int",
+        "float",
+        "bool",
+        "string",
+
+    ],
+
+    wrong:[
+        "void",
+        "Debug",
+    ]
+},
+
+{
+    question:"「int」は何を格納するための変数か]？",
+
+    correct:
+        "整数",
+        
+
+    wrong:[
+        "少数",
+        "文字",
+        "整数も少数も"
+    ]
+},
+
+{
+    question:"[「string」とは何を格納する変数か]",
+
+    correct:"文字",
+
+    wrong:[
+        "整数",
+        "少数",
+        
+    ]
+},
+
+{
+    question:"[「publirc」にはどんな役割があるか正しいものを選べ]",
+
+    correct:"inspectorから値を変更できる",
+
+    wrong:[
+        "ほかのスクリプトからアクセスできなくする",
+        "Rigidbody2Dを取得する",
+        "名前を付ける"
+    ]
+},
+
+{
+    question:"[次のコードは、どんな時にHelloと表示するか選べ]",
+
+    image:"スクリーンショット 2026-06-15 124417.png",
+
+    correct:"scoreが100以下の時",
+
+    wrong:[
+        "scoreが100の時",
+        "scoreが10以上の時",
+        "scoreが100未満の時"
+    ]
+},
+
+{
+    question:"[「bool型で扱える値を一つ選べ」]",
+
+    correct:"trueとfalse",
+
+    wrong:[
+        "0と1",
+        "yesとno",
+        "onとoff"
+    ]
+},
+
+{
+    question:"[「start()」はいつ実行されるのか選べ]",
+
+    correct:"ゲーム開始時に一回だけ実行",
+
+    wrong:[
+        "毎フレーム実行",
+        "ゲームが終了したとき実行",
+        "ゲーム中定期的に実行"
+    ]
+},
+
+{
+    question:"[「transform」では主に(　)、(　)、(　)、を扱う<br>空欄に当てはまるものをすべて選べ]",
+
+    correct:[
+        "位置",
+        "回転",
+        "大きさ"
+    ],
+
+    wrong:[
+        "コンポーネント",
+        "関数",
+        "変数"
+    ]
+},
+
+{
+    question:"[「transform.position」は何を扱うか]",
+
+    correct:"位置",
+
+    wrong:[
+        "大きさ",
+        "変数",
+        "回転"
+    ]
+},
+
+{
+    question:"[「transform.rotation」は何を扱うか]",
+
+    correct:"回転",
+
+    wrong:[
+        "大きさ",
+        "変数",
+        "位置"
+    ]
+},
+
+{
+    question:"[「transform.localScale」は何を扱うか]",
+
+    correct:"大きさ",
+
+    wrong:[
+        "回転",
+        "変数",
+        "位置"
+    ]
+},
+{
+    question:"[「Vector3」とは何を扱うのか]",
+
+    correct:"3Dの座標",
+
+    wrong:[
+        "2Dの座標",
+        "4Dの座標",
+        "3秒後のデータ"
+    ]
+},
+
+{
+    question:"[new Vector3(3,4,7)<br>これはどこの座標を表しているか順番に答えよ]",
+
+    ordered:true,
+
+    correct:[
+        "3",
+        "4",
+        "7"
+        
+    ],
+    wrong:[
+        "10",
+        "2",
+        "5"
+    ]
+}
+,
+{
+    question:"[「Rigidbody2D」は主になんのために使いますか]",
+
+    correct:"物理演算",
+
+    wrong:[
+        "当たり判定",
+        "座標取得",
+        
+    ]
+},
+
+{
+    question:"[「GetComponent」は何を取得するときに使うか]",
+
+    correct:"コンポーネント",
+
+    wrong:[
+        "座標",
+        "名前",
+        "誕生日"
+    ]
+},
+{
+    question:"[「Instantiate()」は何をするための命令か]",
+
+    correct:"オブジェクト生成",
+
+    wrong:[
+        "オブジェクト削除",
+        "オブジェクト移動",
+        "オブジェクト回転"
+    ]
+},
+
+{
+    question:"[「Destroy(gameObject);」 は、どんな役割を持っていますか。]",
+
+    correct:"gameObjectを削除する",
+
+    wrong:[
+        "gameObjectを生成する",
+        "gameObjectを大きくする",
+        "gameObjectを回転する"
+    ]
+},
+
+{
+    question:"[Random.Range(0, 10) の結果として正しいものを選びなさい]",
+
+    correct:"0～9のどれか",
+
+    wrong:[
+        "0～10のどれか",
+        "1～9のどれか",
+        "1～10のどれか"
+    ]
+},
+
+{
+    question:"[「Tag」には何の役割があるか]",
+
+    correct:"オブジェクトを分類・識別するため",
+
+    wrong:[
+        "オブジェクトを移動させるため",
+        "nspectorに変数を表示するため",
+        
+    ]
+},
+
+{
+    question:"[下のコードはどのような条件で実行されるか]",
+
+    image:"image.png",
+
+    correct:"相手のタグがWallなら実行する",
+
+    wrong:[
+        "自分自身のタグがWallなら実行する",
+        "相手の名前がWallなら実行する",
+        
+    ]
+},
+
+{
+    question:"[OnCollisionEnter2D()は、どんなタイミングで呼ばれますか。]",
+
+    correct:"オブジェクト同士がぶつかった瞬間",
+
+    wrong:[
+        "オブジェクト同士が接触している間ずっと",
+        "オブジェクト同士が離れた瞬間",
+        
+    ]
+},
+
+{
+    question:"[「OnCollisionStay2D」はどのとき実行されるか]",
+
+    correct:"接触中ずっと実行",
+
+    wrong:[
+        "ぶつかった瞬間",
+        "離れた瞬間",
+        
+    ]
+},
+
+
+{
+    question:"[「Coroutine」 は主にどんな処理で使われますか。]",
+
+    correct:"時間を待つときに使う",
+
+    wrong:[
+        "オブジェクトのタグを変更する",
+        "毎フレーム処理を実行する",
+        "オブジェクトを削除する",
+        
+    ]
+},
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let selectedOrder = [];
+
+
+
+showQuestion();
+
+function showQuestion()
+{
+    const q = questions[currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+    `問題 ${currentQuestion + 1} / ${questions.length}`;
+
+    document.getElementById("question").innerHTML =
+q.question;
+
+document.getElementById("codeArea").innerHTML = "";
+
+if(q.image)
+{
+    document.getElementById("codeArea").innerHTML =
+    `<img src="${q.image}" class="questionImage">`;
+}
+else if(q.code)
+{
+    document.getElementById("codeArea").innerHTML =
+    `<pre>${q.code}</pre>`;
+}
+
+    document.getElementById("result").textContent = "";
+
+    document.getElementById("nextButton").style.display =
+    "none";
+
+    document.getElementById("answerButton").style.display =
+    "inline-block";
+
+    const choicesDiv =
+    document.getElementById("choices");
+
+    choicesDiv.innerHTML = "";
+    selectedOrder = [];
+
+    const corrects =
+    Array.isArray(q.correct)
+    ? q.correct
+    : [q.correct];
+
+    let choices = [
+        ...corrects,
+        ...q.wrong
+    ];
+
+    if(!q.ordered)
+    {
+    choices.sort(() => Math.random() - 0.5);
+    }
+
+    const inputType =
+    corrects.length > 1
+    ? "checkbox"
+    : "radio";
+
+    choices.forEach(choice =>
+    {
+        const label =
+        document.createElement("label");
+
+        label.className =
+        "choiceLabel";
+
+        label.innerHTML =
+        `
+        <input
+        type="${inputType}"
+        name="answer"
+        value="${choice}">
+        ${choice}
+        `;
+
+        choicesDiv.appendChild(label);
+    });
+}
+
+document.getElementById("answerButton").onclick =
+function()
+{
+    const q = questions[currentQuestion];
+
+    const corrects =
+    Array.isArray(q.correct)
+    ? q.correct
+    : [q.correct];
+
+    const selected =
+    [...document.querySelectorAll(
+    "#choices input:checked"
+    )]
+    .map(x => x.value);
+
+    if(selected.length === 0)
+    {
+        alert("回答を選択してください");
+        return;
+    }
+
+   let isCorrect;
+
+if(q.ordered)
+{
+    isCorrect =
+    JSON.stringify(selectedOrder) ===
+    JSON.stringify(corrects);
+}
+else
+{
+    isCorrect =
+    selected.length === corrects.length &&
+    selected.every(x =>
+    corrects.includes(x));
+}
+
+    const labels =
+    document.querySelectorAll(".choiceLabel");
+
+    labels.forEach(label =>
+    {
+        const input =
+        label.querySelector("input");
+
+        input.disabled = true;
+
+        if(corrects.includes(input.value))
+        {
+            label.style.backgroundColor =
+            "lightgreen";
+        }
+    });
+
+    if(isCorrect)
+    {
+        score++;
+
+        document.getElementById("result").textContent =
+        "⭕ 正解";
+    }
+    else
+    {
+        selected.forEach(value =>
+        {
+            if(!corrects.includes(value))
+            {
+                labels.forEach(label =>
+                {
+                    const input =
+                    label.querySelector("input");
+
+                    if(input.value === value)
+                    {
+                        label.style.backgroundColor =
+                        "#ff9999";
+                    }
+                });
+            }
+        });
+
+        document.getElementById("result").textContent =
+        "❌ 不正解";
+    }
+
+    document.getElementById("answerButton").style.display =
+    "none";
+
+    document.getElementById("nextButton").style.display =
+    "block";
+};
+
+document.getElementById("nextButton").onclick =
+function()
+{
+    currentQuestion++;
+
+    if(currentQuestion >= questions.length)
+    {
+        showResult();
+    }
+    else
+    {
+        showQuestion();
+    }
+};
+
+function showResult()
+{
+    document.body.innerHTML =
+    `
+    <h1>結果発表</h1>
+
+    <h2>${score} / ${questions.length} 問正解</h2>
+
+    <button onclick="location.reload()">
+        もう一度挑戦
+    </button>
+    `;
+}
+
+</script>
+
+</body>
+</html>
+
