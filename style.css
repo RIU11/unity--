@@ -1,67 +1,150 @@
 body{
-    text-align:center;
+    background-color:#f7f1e3;
+    color:#4a4035;
+
     font-family:sans-serif;
+    text-align:center;
+
+    margin:0;
+    padding:30px;
 }
 
-button{
+h1{
+    font-size:64px;
+    margin-top:80px;
+    margin-bottom:40px;
+}
+
+#questionNumber{
+    font-size:22px;
+    color:#8a7865;
+    margin-bottom:20px;
+}
+
+#question{
+    font-size:30px;
+    margin-bottom:30px;
+    line-height:1.5;
+}
+
+.choiceLabel{
     display:block;
-    margin:10px auto;
-    padding:10px;
-    width:300px;
+
+    width:450px;
+    max-width:90%;
+
+    margin:15px auto;
+    padding:18px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:16px;
+
+    font-size:22px;
+    cursor:pointer;
+
+    transition:0.2s;
 }
+
+.choiceLabel:hover{
+    background:#efe2c6;
+}
+
+.choiceLabel input{
+    margin-right:10px;
+}
+
+#answerButton,
+#nextButton{
+    width:280px;
+    height:65px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:16px;
+
+    font-size:22px;
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+#answerButton:hover,
+#nextButton:hover{
+    background:#efe2c6;
+}
+
+#result{
+    margin-top:25px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+#answerButton{
+    margin-top:25px;
+}
+
+#nextButton{
+    display:none;
+    position:fixed;
+    right:30px;
+    bottom:30px;
+}
+
+.questionImage{
+    max-width:90%;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
 pre{
-    width:80%;
-    max-width:800px;
-
-    margin:20px auto;
-
-    text-align:left;
-
-    background:#1e1e1e;
-    color:white;
+    background:#fffaf0;
+    color:#4a4035;
 
     padding:20px;
 
-    border-radius:10px;
+    border:2px solid #d8c3a5;
+    border-radius:16px;
 
-    font-size:32px;
-    font-family:Consolas, monospace;
-
-    white-space:pre-wrap;
-}
-#codeArea{
-    width:100%;
-}
-
-#codeArea pre{
-    display:block !important;
-
-    width:90% !important;
-    max-width:1000px !important;
-
-    margin:20px auto !important;
-
-    text-align:left !important;
-
-    background:#1e1e1e !important;
-    color:white !important;
-
-    padding:20px !important;
-
-    border-radius:10px !important;
-
-    font-size:36px !important;
-
-    font-family:Consolas, monospace !important;
-
-    white-space:pre-wrap !important;
-}
-.questionImage{
-    width:90%;
-    max-width:900px;
-
-    display:block;
+    max-width:800px;
     margin:20px auto;
 
-    border-radius:10px;
+    text-align:left;
+    overflow:auto;
+}
+/* 問題選択画面 */
+
+.menu{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-top:50px;
+}
+
+.menu button{
+    width:450px;
+    max-width:90%;
+    height:110px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:20px;
+
+    font-size:32px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.menu button:hover{
+    background:#efe2c6;
+    transform:translateY(-3px);
 }
