@@ -1,7 +1,24 @@
 let current = 0;
 let score = 0;
+let answerHistory = [];
 
 loadQuestions();
+
+const normalizedUser =
+normalizeText(userAnswer);
+
+const isCorrect =
+q.correctAnswers.some(answer =>
+normalizeText(answer) === normalizedUser
+);
+
+function normalizeText(text)
+{
+    return text
+    .toLowerCase()
+    .replace(/\s/g,"")
+    .trim();
+}
 
 async function loadQuestions()
 {

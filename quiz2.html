@@ -132,47 +132,41 @@ button{
 const questions = [
 
 {
-    question:"",
+    question:"下のコードを実行するとどうなる？",
 
-    correct:"",
+    code:`
+void Start()
+{
+    Debug.Log("Hello");
+}
+`,
 
-    wrong:[
-        "",
-        "",
-        ""
+    correctAnswers:[
+        "ゲーム開始時にhelloと表示される",
+        "helloと表示される",
+        "ゲーム開始時にhelloが表示される"
     ]
 },
 
 {
-    question:"",
+    question:"下のコードを実行すると何が表示される？",
 
-    correct:[
-        "",
-        "",
-        "",
-        "",
+    code:`
+int score = 5;
 
-    ],
-
-    wrong:[
-        "",
-        "",
-    ]
-},
-
+void Start()
 {
-    question:"",
+    score += 3;
+    Debug.Log(score);
+}
+`,
 
-    correct:
-        "",
-        
-
-    wrong:[
-        "",
-        "",
-        ""
+    correctAnswers:[
+        "8と表示される",
+        "8が表示される",
+        "scoreは8になる"
     ]
-},
+}
 
 ];
 
@@ -216,51 +210,22 @@ else if(q.code)
     document.getElementById("answerButton").style.display =
     "inline-block";
 
-    const choicesDiv =
-    document.getElementById("choices");
-
-    choicesDiv.innerHTML = "";
-    selectedOrder = [];
-
-    const corrects =
-    Array.isArray(q.correct)
-    ? q.correct
-    : [q.correct];
-
-    let choices = [
-        ...corrects,
-        ...q.wrong
-    ];
-
-    if(!q.ordered)
-    {
-    choices.sort(() => Math.random() - 0.5);
-    }
-
-    const inputType =
-    corrects.length > 1
-    ? "checkbox"
-    : "radio";
-
-    choices.forEach(choice =>
-    {
-        const label =
-        document.createElement("label");
-
-        label.className =
-        "choiceLabel";
-
-        label.innerHTML =
-        `
-        <input
-        type="${inputType}"
-        name="answer"
-        value="${choice}">
-        ${choice}
-        `;
-
-        choicesDiv.appendChild(label);
-    });
+    document.getElementById("answerArea").innerHTML =
+`
+<textarea
+id="userAnswer"
+placeholder="ここに回答を書いてください"
+style="
+width:80%;
+max-width:800px;
+height:180px;
+padding:15px;
+font-size:20px;
+border:2px solid #d8c3a5;
+border-radius:10px;
+resize:vertical;
+"></textarea>
+`;
 }
 
 document.getElementById("answerButton").onclick =
@@ -273,17 +238,16 @@ function()
     ? q.correct
     : [q.correct];
 
-    const selected =
-    [...document.querySelectorAll(
-    "#choices input:checked"
-    )]
-    .map(x => x.value);
+    const userAnswer =
+document.getElementById("userAnswer")
+.value
+.trim();
 
-    if(selected.length === 0)
-    {
-        alert("回答を選択してください");
-        return;
-    }
+if(userAnswer === "")
+{
+    alert("回答を入力してください");
+    return;
+}
 
    let isCorrect;
 
