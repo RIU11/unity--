@@ -639,6 +639,25 @@ function()
 
 function showResult()
 {
+    let scores =
+JSON.parse(
+localStorage.getItem("quizScores")
+) || [];
+
+scores.push(score);
+
+localStorage.setItem(
+"quizScores",
+JSON.stringify(scores)
+);
+
+const ranking =
+[...scores]
+.sort((a,b)=>b-a)
+.slice(0,3);
+
+const bestScore =
+Math.max(...scores);
     let reviewHTML = "";
 
     answerHistory.forEach((item,index)=>
@@ -691,6 +710,28 @@ function showResult()
         <h2>
             ${score} / ${questions.length} 問正解
         </h2>
+            <div style="
+font-size:24px;
+margin:20px;
+">
+
+自己ベスト：
+${bestScore}点
+
+<br><br>
+
+🥇 ${ranking[0] ?? "-"}点
+<br>
+🥈 ${ranking[1] ?? "-"}点
+<br>
+🥉 ${ranking[2] ?? "-"}点
+
+<br><br>
+
+挑戦回数：
+${scores.length}回
+
+</div>
 
         <div style="
             max-width:900px;
