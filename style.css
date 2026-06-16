@@ -200,3 +200,42 @@ pre{
 
     box-sizing:border-box;
 }
+
+body{
+    background:#f7f1e3;
+    color:#4a4035;
+    font-family:sans-serif;
+    text-align:center;
+    margin:0;
+    padding:30px;
+}
+
+h1{
+    font-size:64px;
+    margin-top:80px;
+    margin-bottom:15px;
+}
+
+h2{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+h3{
+    font-size:22px;
+    font-weight:normal;
+    color:#8a7865;
+    margin-bottom:50px;
+}
+
+p{
+    font-size:20px;
+    color:#6d5f50;
+    margin-bottom:20px;
+}
+
+.description{
+    font-size:24px;
+    color:#6d5f50;
+    margin-bottom:15px;
+}
