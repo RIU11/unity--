@@ -9,6 +9,7 @@ body{
     padding:30px;
 }
 
+
 h1{
     font-size:64px;
     margin-top:80px;
@@ -25,6 +26,33 @@ h1{
     font-size:30px;
     margin-bottom:30px;
     line-height:1.5;
+}
+
+pre{
+    width:800px;
+    max-width:90%;
+
+    margin:20px auto;
+
+    padding:20px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:16px;
+
+    text-align:left;
+
+    font-family:Consolas, monospace;
+    font-size:20px;
+    line-height:1.5;
+
+    white-space:pre;
+
+    overflow-x:auto;
+
+    box-sizing:border-box;
 }
 
 .choiceLabel{
@@ -147,4 +175,28 @@ pre{
 .menu button:hover{
     background:#efe2c6;
     transform:translateY(-3px);
+}
+
+.codeBlock{
+    width:700px;
+    max-width:90%;
+
+    margin:30px auto;
+
+    padding:25px;
+
+    background:#fffaf0;
+
+    border:2px solid #d8c3a5;
+    border-radius:16px;
+
+    font-family:Consolas, monospace;
+    font-size:24px;
+    line-height:1.6;
+
+    text-align:left;
+
+    white-space:pre-wrap;
+
+    box-sizing:border-box;
 }
