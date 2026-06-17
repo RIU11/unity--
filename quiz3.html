@@ -1,0 +1,758 @@
+html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unity応用問題</title>
+
+<style>
+
+body{
+    font-family:sans-serif;
+    text-align:center;
+    margin:30px;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+#questionNumber{
+    font-size:20px;
+    margin-bottom:20px;
+}
+
+#question{
+    font-size:28px;
+    margin-bottom:30px;
+}
+
+.choiceLabel{
+    display:block;
+    width:400px;
+    max-width:90%;
+    margin:15px auto;
+    padding:15px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:14px;
+
+    font-size:22px;
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.choiceLabel:hover{
+    background:#efe2c6;
+}
+
+/* 問題画面のボタン */
+#answerButton,
+#nextButton{
+    width:250px;
+    height:60px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:14px;
+
+    font-size:22px;
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+#answerButton:hover,
+#nextButton:hover{
+    background:#efe2c6;
+}
+
+.choiceLabel input{
+    margin-right:10px;
+}
+
+#result{
+    margin-top:20px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+#answerButton{
+    margin-top:20px;
+}
+
+#nextButton{
+    display:none;
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    padding:15px 30px;
+    font-size:24px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:20px;
+    cursor:pointer;
+}
+#codeArea{
+    display:flex;
+    justify-content:center;
+    margin-bottom:30px;
+}
+
+#codeArea pre{
+    width:700px;
+    max-width:90%;
+
+    margin:0;
+
+    padding:20px;
+
+    background:#fffaf0;
+    color:#4a4035;
+
+    border:2px solid #d8c3a5;
+    border-radius:16px;
+
+    font-family:Consolas, monospace;
+    font-size:24px;
+    line-height:1.6;
+
+    text-align:left;
+
+    white-space:pre;
+    overflow-x:auto;
+
+    box-sizing:border-box;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Unity問題集</h1>
+
+<div id="questionNumber"></div>
+
+<h2 id="question"></h2>
+
+<div id="codeArea"></div>
+
+<div id="answerArea"></div>
+
+<div id="result"></div>
+
+<button id="answerButton">
+回答する
+</button>
+
+<button id="nextButton">
+次へ →
+</button>
+
+<script>
+
+const questions = [
+
+{           // Debug.Log("Hello")の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void Start()
+{
+    Debug.Log("Hello");
+}
+`,
+
+    correctAnswers:[
+        "ゲーム開始時にhelloと表示される",
+        "helloと表示される",
+        "ゲーム開始時にhelloが表示される",
+        "スタート関数が呼ばれ、helloと表示される",
+        "Helloと出る",
+        "consoleにHelloと表示される",
+        "コンソールにHelloと表示される",
+        "ゲーム開始時にコンソールにHelloと表示される",
+        "コンソールにHelloと出る",
+        "ゲーム開始時にコンソールにHelloと出る",
+    ]
+},
+
+{           //scoreで足し算の問題 
+    question:"下のコードを実行すると何が表示される？",
+
+    code:`
+int score = 5;
+
+void Start()
+{
+    score += 3;
+    Debug.Log(score);
+}
+`,
+
+    correctAnswers:[
+        "8と表示される",
+        "8が表示される",
+        "scoreは8になる",
+        "scoreが8になる",
+        "consoleに8と表示される",
+        "コンソールに8と表示される",
+        "8と出る",
+        "8",
+        "8が出る",
+        "ゲーム開始時に8と表示される",
+        "ゲーム開始時にコンソールに8と表示される",
+    ]
+},
+
+{           //scoreの値の問題
+    question:"下のコードを実行すると何が表示される？",
+
+    code:`
+int score = 5;
+
+void Start()
+{
+    Debug.Log(score);
+}
+`,
+
+    correctAnswers:[
+        "5と表示される",
+        "5が表示される",
+        "scoreは5になる",
+        "scoreが5になる",
+        "consoleに5と表示される",
+        "コンソールに5と表示される",
+        "5と出る",
+        "5",
+        "5が出る",
+        "ゲーム開始時に5と表示される",
+        "ゲーム開始時にコンソールに5と表示される",
+    ]
+},
+
+{           //gameObjectの破棄の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void Start()
+{
+    Destroy(gameObject);
+}
+`,
+
+    correctAnswers:[
+        "gameObjectが破棄される",
+        "ゲームオブジェクトが削除される",
+        "gameObjectが削除される",
+        "ゲームオブジェクトが破棄される",
+        "コンソールにgameObjectが破棄されるというメッセージが表示される",
+        "コンソールにゲームオブジェクトが削除されるというメッセージが表示される",
+        "ゲーム開始時にgameObjectが破棄される",
+        "ゲーム開始時にゲームオブジェクトが削除される",
+    ]
+},
+
+{           //gameObjectの位置変更の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void Start()
+{
+    transform.position = new Vector3(3,5,7);
+}
+`,
+
+    correctAnswers:[
+        "gameObjectの位置が(3,5,7)に変更される",
+        "ゲームオブジェクトの位置が(3,5,7)に変更される",
+        "gameObjectの位置が(3,5,7)になる",
+        "ゲームオブジェクトの位置が(3,5,7)に移動する",
+        "コンソールにgameObjectの位置が変更されるというメッセージが表示される",
+        "座標が(3,5,7)に変更される",
+        "座標が(3,5,7)になる",
+        "座標が(3,5,7)に移動する",
+        "座標が3,5,7になる",
+        "座標が3,5,7に移動する",
+        "座標が3,5,7に変更される",
+    ]
+},
+
+{           //gameObjectの非アクティブ化の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void Start()
+{
+    gameObject.SetActive(false);
+}
+`,
+
+    correctAnswers:[
+        "gameObjectが非アクティブになる",
+        "ゲームオブジェクトが非アクティブになる",
+        "gameObjectが表示されなくなる",
+        "ゲームオブジェクトが表示されなくなる",
+        "コンソールにgameObjectが非アクティブになるというメッセージが表示される",
+        "コンソールにゲームオブジェクトが非アクティブになるというメッセージが表示される",
+        "ゲーム開始時にgameObjectが非アクティブになる",
+        "ゲーム開始時にゲームオブジェクトが非アクティブになる",
+        "オブジェクトが消える",
+        "オブジェクトが無効になる",
+        "オブジェクトが非表示になる",
+        "オブジェクトが見えなくなる",
+        "オブジェクトが表示されなくなる",
+        "ゲームオブジェクトが消える",
+        "ゲームオブジェクトが無効になる",
+        "ゲームオブジェクトが非表示になる",
+        "ゲームオブジェクトが見えなくなる",
+        "ゲームオブジェクトが削除される",
+    ]
+},
+
+{           //衝突の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void OnCollisionEnter2D(Collision2D collision)
+{
+    Debug.Log("当たった");
+}
+`,
+
+    correctAnswers:[
+        "ぶつかったときに当たったと表示される",
+        "ぶつかったときに当たったと出る",
+        "当たった時に当たったと表示される",
+        "当たった時に当たったと出る",
+        "何かに当たると当たったと表示される",
+        "何かにぶつかったら当たったと表示される",
+        "何かにぶつかると、当たったと表示される",
+        "衝突時に当たったと表示される",
+        "衝突時に当たったと出る",
+        "ぶつかった瞬間当たったと表示される",
+        "ぶつかった瞬間当たったと出る",
+        "当たった瞬間当たったと表示される",
+        "当たった瞬間当たったと出る",
+        "ぶつかった瞬間に当たったと表示される",
+        "ぶつかった瞬間に当たったと出る",
+        "当たった瞬間に当たったと表示される",
+        "当たった瞬間に当たったと出る",
+    ]
+},
+
+{           //衝突削除の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void OnCollisionEnter2D(Collision2D collision)
+{
+    Destroy(gameObject);
+}
+`,
+
+    correctAnswers:[
+        "ぶつかったときにゲームオブジェクトが消える",
+        "ぶつかった時にゲームオブジェクトが消える",
+        "当たった時にゲームオブジェクトが消える",
+        "当たった時にgameObjectが消える",
+        "当たった時、ゲームオブジェクトが消える",
+        "当たった時、gameObjectが消える",
+        "あたったときにゲームオブジェクトが消える",
+        "あたったときにgameObjectが消える",
+        "何かに当たるとゲームオブジェクトが消える",
+        "何かにぶつかったらゲームオブジェクトが消える",
+        "何かにぶつかるとゲームオブジェクトが消える",
+        "衝突時にゲームオブジェクトが消える",
+        "ぶつかったら消える",
+        "当たった瞬間ゲームオブジェクトが削除される",
+        "当たった瞬間ゲームオブジェクトが消える",  
+        "当たった時にゲームオブジェクトが削除される",
+        "当たった時にgameObjectが削除される"
+    ]
+},
+
+{           //重力削除の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+public rigidbody2d rb;
+
+void start()
+{
+    rb.gravityScale = 0;
+}
+`,
+
+    correctAnswers:[
+        "重力がなくなる",
+        "落下しなくなる",
+        "重力が0になる",
+        "落下がなくなる",
+        "落下しなくなる",
+        "重力がなくなり、落下しなくなる",
+        "重力が0になり、落下しなくなる",
+        "重力がなくなり、落下がなくなる",
+        "重力が0になり、落下がなくなる",
+    ]
+},
+
+{           //SetActiveの問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+public GameObject enemy;
+void Start()
+{
+    enemy.SetActive(false);
+}
+`,
+
+    correctAnswers:[
+        "enemyが非表示になる",
+        "enemyが無効かされる",
+        "enemyが非アクティブになる",
+        "enenmyが消える",
+        "enemy非表示",
+        "enemy無効",
+        "敵が消える",
+        "敵が非表示になる",
+        "enemyが削除される",
+        "enemyが見えなくなる",
+        "敵が削除される",
+        "敵が非アクティブになる",
+        "敵が無効になる",
+    ]
+},
+
+{           //座標表示の問題
+    question:"下のコードを実行するとどうなる？",
+
+    code:`
+void Start()
+{
+    Debug.Log(transform.position);
+}
+`,
+
+    correctAnswers:[
+        "現在の座標が表示される",
+        "現在の位置が表示される",
+        "transform.positionの値が表示される",
+        "座標が表示される",
+        "位置が表示される",
+        "現在の座標がログに出力される",
+        "オブジェクトの位置が表示される",
+        "オブジェクトの座標が表示される",
+        "コンソールに現在の座標が表示される",
+        "コンソールに現在の位置が表示される",
+        "コンソールに位置が表示される"
+    ]
+},
+
+];
+   
+
+
+let currentQuestion = 0;
+let score = 0;
+
+let answerHistory = [];
+
+
+
+showQuestion();
+
+function showQuestion()
+{
+    const q = questions[currentQuestion];
+
+    document.getElementById("questionNumber").textContent =
+    `問題 ${currentQuestion + 1} / ${questions.length}`;
+
+    document.getElementById("question").innerHTML =
+q.question;
+
+document.getElementById("codeArea").innerHTML = "";
+
+if(q.image)
+{
+    document.getElementById("codeArea").innerHTML =
+    `<img src="${q.image}" class="questionImage">`;
+}
+else if(q.code)
+{
+    document.getElementById("codeArea").innerHTML =
+`
+<pre class="codeBlock">${q.code}</pre>
+`;
+}
+
+    document.getElementById("result").textContent = "";
+
+    document.getElementById("nextButton").style.display =
+    "none";
+
+    document.getElementById("answerButton").style.display =
+    "inline-block";
+
+    document.getElementById("answerArea").innerHTML =
+`
+<textarea
+id="userAnswer"
+placeholder="ここに回答を書いてください"
+style="
+width:80%;
+max-width:800px;
+height:180px;
+padding:15px;
+font-size:20px;
+border:2px solid #d8c3a5;
+border-radius:10px;
+resize:vertical;
+"></textarea>
+`;
+}
+document.getElementById("answerButton").onclick =
+function()
+{
+    const q = questions[currentQuestion];
+
+    const userAnswer =
+    document.getElementById("userAnswer")
+    .value
+    .trim();
+
+    if(userAnswer === "")
+    {
+        alert("回答を入力してください");
+        return;
+    }
+
+    const normalize = text =>
+    text.toLowerCase()
+    .replace(/\s/g,"")
+    .trim();
+
+    const isCorrect =
+    q.correctAnswers.some(answer =>
+    normalize(answer) ===
+    normalize(userAnswer)
+    );
+
+    answerHistory.push({
+        question:q.question,
+        code:q.code,
+        userAnswer:userAnswer,
+        correctAnswers:q.correctAnswers,
+        isCorrect:isCorrect
+    });
+
+    if(isCorrect)
+    {
+        score++;
+
+        document.getElementById("result").textContent =
+        "⭕ 正解";
+    }
+    else
+    {
+        document.getElementById("result").textContent =
+        "❌ 不正解";
+
+        document.getElementById("result").innerHTML +=
+        `<br>正解例：${q.correctAnswers[0]}`;
+    }
+
+    document.getElementById("userAnswer")
+    .disabled = true;
+
+    document.getElementById("answerButton").style.display =
+    "none";
+
+    document.getElementById("nextButton").style.display =
+    "block";
+};
+
+document.getElementById("nextButton").onclick =
+function()
+{
+    currentQuestion++;
+
+    if(currentQuestion >= questions.length)
+    {
+        showResult();
+    }
+    else
+    {
+        showQuestion();
+    }
+};
+
+function showResult()
+{
+    let scores =
+    JSON.parse(localStorage.getItem("quiz2Scores"))
+    || [];
+
+    scores.push(score);
+
+    localStorage.setItem(
+        "quiz2Scores",
+        JSON.stringify(scores)
+    );
+
+    const ranking =
+    [...scores]
+    .sort((a,b)=>b-a)
+    .slice(0,3);
+
+    const bestScore =
+    Math.max(...scores);
+
+    let historyHtml = "";
+
+    answerHistory.forEach((item,index)=>
+    {
+        historyHtml += `
+        <div style="
+            background:#fffaf0;
+            border:2px solid #d8c3a5;
+            border-radius:16px;
+            padding:20px;
+            margin-bottom:20px;
+            text-align:left;
+        ">
+            <h3>
+                問題${index + 1}
+                ${item.isCorrect ? "⭕ 正解" : "❌ 不正解"}
+            </h3>
+
+            <pre style="
+                background:#f7f1e3;
+                padding:15px;
+                border-radius:10px;
+                overflow:auto;
+            ">${item.code}</pre>
+
+            <p>
+                <strong>あなたの回答</strong><br>
+                ${item.userAnswer}
+            </p>
+
+            <p>
+                <strong>正解例</strong><br>
+                ${item.correctAnswers.join("<br>")}
+            </p>
+        </div>
+        `;
+    });
+
+    document.body.innerHTML = `
+    <div style="
+        min-height:100vh;
+        background:#f7f1e3;
+        color:#4a4035;
+        padding:30px;
+        box-sizing:border-box;
+        text-align:center;
+    ">
+
+        <h1 style="
+            font-size:60px;
+            margin-bottom:20px;
+        ">
+            結果発表
+        </h1>
+
+        <h2 style="
+            font-size:40px;
+            margin-bottom:30px;
+        ">
+            ${score} / ${questions.length} 問正解
+        </h2>
+
+        <div style="
+            max-width:700px;
+            margin:0 auto 40px auto;
+            background:#fffaf0;
+            border:2px solid #d8c3a5;
+            border-radius:16px;
+            padding:20px;
+        ">
+            <h2>🏆 自己ベスト</h2>
+
+            <p style="font-size:28px;">
+                ${bestScore} 点
+            </p>
+
+            <h2>📈 TOP3</h2>
+
+            <p>
+                🥇 ${ranking[0] || "-"} 点<br>
+                🥈 ${ranking[1] || "-"} 点<br>
+                🥉 ${ranking[2] || "-"} 点
+            </p>
+
+            <p>
+                挑戦回数：${scores.length} 回
+            </p>
+        </div>
+
+        <h2>
+            問題ごとの結果
+        </h2>
+
+        <div style="
+            max-width:900px;
+            margin:20px auto;
+            max-height:600px;
+            overflow-y:auto;
+            padding-right:10px;
+        ">
+            ${historyHtml}
+        </div>
+
+        <button
+            onclick="location.reload()"
+            style="
+                width:300px;
+                height:70px;
+                font-size:24px;
+                margin:10px;
+            "
+        >
+            もう一度挑戦
+        </button>
+
+        <button
+            onclick="location.href='index.html'"
+            style="
+                width:300px;
+                height:70px;
+                font-size:24px;
+                margin:10px;
+            "
+        >
+            問題選択へ戻る
+        </button>
+
+    </div>
+    `;
+}
+
+</script>
+
+</body>
+</html>
+

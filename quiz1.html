@@ -4,7 +4,7 @@ html
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unity問題集</title>
+<title>Unity基礎の基礎問題</title>
 
 <style>
 
@@ -162,307 +162,86 @@ button{
 const questions = [
 
 {
-    question:"変数とは何か下の空欄に当てはまるものを選べ<br>「　　　」を保存する箱",
+    question:"start関数はいつ実行されるか",
 
-    correct:"情報",
+    correct:"ゲームスタート直後に1回",
 
     wrong:[
-        "関数",
-        "大きさ",
-        "変数"
+        "ゲーム終了時",
+        "ゲーム開始してから毎フレーム",
+        "ゲーム開始してから毎秒"
     ]
 },
 
 {
-    question:"この中で変数はどれかすべて答えて",
+    question:"Updeate関数は何をするための関数か",
 
     correct:[
-        "int",
-        "float",
-        "bool",
-        "string",
+        "毎フレーム実行される",
 
     ],
 
     wrong:[
-        "void",
-        "Debug",
+        "シーンを切り替える",
+        "オブジェクトを削除する",
+        "毎秒実行される",
     ]
 },
 
 {
-    question:"「int」は何を格納するための変数か？",
+    question:"Debug.Log()の役割は何か",
 
     correct:
-        "整数",
+        "コンソールに文字を表示する",
         
 
     wrong:[
-        "少数",
-        "文字",
-        "整数も少数も"
+        "オブジェクトを生成する",
+        "文字を表示する",
+        "ゲームを終了する"
     ]
 },
 
 {
-    question:"「string」とは何を格納する変数か",
+    question:"画像の中のうちフォルダやスクリプトを作るためにはどれを選べばいいか",
 
-    correct:"文字",
+    image:"quiz1_Image.png",
+
+    correct:"1",
 
     wrong:[
-        "整数",
-        "少数",
+        "2",
+        "3",
         
     ]
 },
 
 {
-    question:"「public」にはどんな役割があるか正しいものを選べ",
+    question:"次の画像のうち、スクリプトを作りにはどれを選べばいいか",
 
-    correct:"inspectorから値を変更できる",
+    image:"quiz2_Image.png",
 
-    wrong:[
-        "ほかのスクリプトからアクセスできなくする",
-        "Rigidbody2Dを取得する",
-        "名前を付ける"
-    ]
-},
-
-{
-    question:"次のコードは、どんな時にHelloと表示するか選べ",
-
-    image:"スクリーンショット 2026-06-15 124417.png",
-
-    correct:"scoreが100以下の時",
+    correct:"2",
 
     wrong:[
-        "scoreが100の時",
-        "scoreが10以上の時",
-        "scoreが100未満の時"
-    ]
-},
-
-{
-    question:"[bool型で扱える値を一つ選べ」",
-
-    correct:"trueとfalse",
-
-    wrong:[
-        "0と1",
-        "yesとno",
-        "onとoff"
-    ]
-},
-
-{
-    question:"「start()」はいつ実行されるのか選べ",
-
-    correct:"ゲーム開始時に一回だけ実行",
-
-    wrong:[
-        "毎フレーム実行",
-        "ゲームが終了したとき実行",
-        "ゲーム中定期的に実行"
-    ]
-},
-
-{
-    question:"「transform」では主に(　)、(　)、(　)、を扱う<br>空欄に当てはまるものをすべて選べ",
-
-    correct:[
-        "位置",
-        "回転",
-        "大きさ"
-    ],
-
-    wrong:[
-        "コンポーネント",
-        "関数",
-        "変数"
-    ]
-},
-
-{
-    question:"「transform.position」は何を扱うか",
-
-    correct:"位置",
-
-    wrong:[
-        "大きさ",
-        "変数",
-        "回転"
-    ]
-},
-
-{
-    question:"「transform.rotation」は何を扱うか",
-
-    correct:"回転",
-
-    wrong:[
-        "大きさ",
-        "変数",
-        "位置"
-    ]
-},
-
-{
-    question:"「transform.localScale」は何を扱うか",
-
-    correct:"大きさ",
-
-    wrong:[
-        "回転",
-        "変数",
-        "位置"
-    ]
-},
-{
-    question:"「Vector3」とは何を扱うのか",
-
-    correct:"3Dの座標",
-
-    wrong:[
-        "2Dの座標",
-        "4Dの座標",
-        "3秒後のデータ"
-    ]
-},
-
-{
-    question:"new Vector3(3,4,7)<br>これの中でZ座標はどれか答えて",
-
-    correct:"7",
-        
-    wrong:[
-        "4",
+        "1",
         "3",
     ]
 },
 
 {
-    question:"「Rigidbody2D」は主になんのために使いますか",
+    question:"",
 
-    correct:"物理演算",
+
+    correct:"",
 
     wrong:[
-        "当たり判定",
-        "座標取得",
-        
+        "",
+        "",
+        ""
     ]
 },
 
-{
-    question:"「GetComponent」は何を取得するときに使うか",
-
-    correct:"コンポーネント",
-
-    wrong:[
-        "座標",
-        "名前",
-        "誕生日"
-    ]
-},
-
-{
-    question:"「Instantiate()」は何をするための命令か",
-
-    correct:"オブジェクト生成",
-
-    wrong:[
-        "オブジェクト削除",
-        "オブジェクト移動",
-        "オブジェクト回転"
-    ]
-},
-
-{
-    question:"「Destroy(gameObject);」 は、どんな役割を持っていますか。",
-
-    correct:"gameObjectを削除する",
-
-    wrong:[
-        "gameObjectを生成する",
-        "gameObjectを大きくする",
-        "gameObjectを回転する"
-    ]
-},
-
-{
-    question:"Random.Range(0, 10) の結果として正しいものを選びなさい",
-
-    correct:"0～9のどれか",
-
-    wrong:[
-        "0～10のどれか",
-        "1～9のどれか",
-        "1～10のどれか"
-    ]
-},
-
-{
-    question:"「Tag」には何の役割があるか",
-
-    correct:"オブジェクトを分類・識別するため",
-
-    wrong:[
-        "オブジェクトを移動させるため",
-        "nspectorに変数を表示するため",
-        
-    ]
-},
-
-{
-    question:"下のコードはどのような条件で実行されるか",
-
-    image:"スクリーンショット 2026-06-15 132825.png",
-
-    correct:"相手のタグがWallなら実行する",
-
-    wrong:[
-        "自分自身のタグがWallなら実行する",
-        "相手の名前がWallなら実行する",
-        
-    ]
-},
-
-{
-    question:"OnCollisionEnter2D()は、どんなタイミングで呼ばれますか。",
-
-    correct:"オブジェクト同士がぶつかった瞬間",
-
-    wrong:[
-        "オブジェクト同士が接触している間ずっと",
-        "オブジェクト同士が離れた瞬間",
-        
-    ]
-},
-
-{
-    question:"「OnCollisionStay2D」はどのとき実行されるか",
-
-    correct:"接触中ずっと実行",
-
-    wrong:[
-        "ぶつかった瞬間",
-        "離れた瞬間",
-        
-    ]
-},
-
-
-{
-    question:"「Coroutine」 は主にどんな処理で使われますか。",
-
-    correct:"時間を待つときに使う",
-
-    wrong:[
-        "オブジェクトのタグを変更する",
-        "毎フレーム処理を実行する",
-        "オブジェクトを削除する",
-        
-    ]
-},
 ];
 
 
